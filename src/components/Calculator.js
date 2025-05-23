@@ -22,22 +22,28 @@ export default function Calculator() {
         setTotal(sum);
     };
 
+    // aggiorna solo la riga che corrisponde a quella selezionata
     const handleRowValueChange = (id, operation, value, disabled) => {
         setRows(rows.map(row => 
+            //aggiorna la row con i nuovi valori, oppure rimane invariata
             row.id === id ? {...row, operation, value, disabled} : row
         ));
     };
 
+    // aggiunge una nuova riga trovando il massimo tra gli id delle righe esistenti 
+    // e aggiungendo la riga in fondo, oppure all'inizio nel caso in cui non ci sia un massimo
     const addRow = () => {
         const newId = rows.length > 0 ? Math.max(...rows.map(row => row.id)) + 1 : 1;
         setRows([...rows, { id: newId, operation: '+', value: '', disabled: false }]);
     };
 
+    // esclude la riga con l'id specificato
     const removeRow = (id) => {
         setRows(rows.filter(row => row.id !== id));
     };
 
-    const toggleDisableRow = (id, operation, value, disabled) => {
+    // attiva o disattiva la riga selezionata, modificando solo disabled
+    const toggleDisableRow = (id, _operation, _value, disabled) => {
         setRows(rows.map(row => 
             row.id === id ? {...row, disabled} : row
         ));
